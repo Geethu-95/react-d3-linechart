@@ -18,6 +18,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import TableFooter from '@mui/material/TableFooter';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import { Button } from "@mui/material";
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -73,6 +74,40 @@ function TablePaginationActions(props) {
   );
 }
 
+const useSortableData = (items, config = null) => {
+  const [sortConfig, setSortConfig] = React.useState(config);
+
+  const sortedItems = React.useMemo(() => {
+    let sortableItems = [...items];
+    if (sortConfig !== null) {
+      sortableItems.sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === 'ascending' ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+    return sortableItems;
+  }, [items, sortConfig]);
+
+  const requestSort = (key) => {
+    let direction = 'ascending';
+    if (
+      sortConfig &&
+      sortConfig.key === key &&
+      sortConfig.direction === 'ascending'
+    ) {
+      direction = 'descending';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  return { items: sortedItems, requestSort, sortConfig };
+};
+
 
 const Data =  () => {
 
@@ -101,7 +136,13 @@ const Data =  () => {
     setPage(0);
   };
 
-  // const newData = JSON.parse(data);
+  const { items, requestSort, sortConfig } = useSortableData(data);
+  const getClassNamesFor = (name) => {
+    if (!sortConfig) {
+      return;
+    }
+    return sortConfig.key === name ? sortConfig.direction : undefined;
+  };
 
   return (
     <>
@@ -110,21 +151,76 @@ const Data =  () => {
       <Table sx={{ minWidth: 600 ,height:650}} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
-            <TableCell>S_no</TableCell>
-            <TableCell align="right">line_of_business</TableCell>
-            <TableCell align="right">revenue_type</TableCell>
-            <TableCell align="right">product</TableCell>
-            <TableCell align="right">year</TableCell>
-            <TableCell align="right">month</TableCell>
-            <TableCell align="right">acv</TableCell>
-            <TableCell align="right">tcv</TableCell>
-            <TableCell align="right">revenue</TableCell>
+            <TableCell><Button
+              type="button"
+              onClick={() => requestSort('S_no')}
+              className={getClassNamesFor('S_no')}
+            >
+              S_no
+            </Button>
+              </TableCell>
+            <TableCell align="right"><Button
+              type="button"
+              onClick={() => requestSort('line_of_business')}
+              className={getClassNamesFor('line_of_business')}
+            >
+              line_of_business
+            </Button></TableCell>
+            <TableCell align="right"><Button
+              type="button"
+              onClick={() => requestSort('revenue_type')}
+              className={getClassNamesFor('revenue_type')}
+            >
+              revenue_type
+            </Button></TableCell>
+            <TableCell align="right"><Button
+              type="button"
+              onClick={() => requestSort('product')}
+              className={getClassNamesFor('product')}
+            >
+              product
+            </Button></TableCell>
+            <TableCell align="right"><Button
+              type="button"
+              onClick={() => requestSort('year')}
+              className={getClassNamesFor('year')}
+            >
+              year
+            </Button></TableCell>
+            <TableCell align="right"><Button
+              type="button"
+              onClick={() => requestSort('month')}
+              className={getClassNamesFor('month')}
+            >
+              month
+            </Button></TableCell>
+            <TableCell align="right"><Button
+              type="button"
+              onClick={() => requestSort('acv')}
+              className={getClassNamesFor('acv')}
+            >
+              acv
+            </Button></TableCell>
+            <TableCell align="right"><Button
+              type="button"
+              onClick={() => requestSort('tcv')}
+              className={getClassNamesFor('tcv')}
+            >
+              tcv
+            </Button></TableCell>
+            <TableCell align="right"><Button
+              type="button"
+              onClick={() => requestSort('revenue')}
+              className={getClassNamesFor('revenue')}
+            >
+              revenue
+            </Button></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {(rowsPerPage > 0
-            ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : data
+            ? items.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : items
           ).map((row) => (
             <TableRow
               key={row.S_no}
@@ -138,7 +234,7 @@ const Data =  () => {
               <TableCell align="right">{row.product}</TableCell>
               <TableCell align="right">{row.year}</TableCell>
               <TableCell align="right">{row.month}</TableCell>
-              <TableCell align="right">{row.acv}</TableCell>
+              <TableCell align="right">{'$'+row.acv.toLocaleString()}</TableCell>
               <TableCell align="right">{row.tcv}</TableCell>
               <TableCell align="right">{row.revenue}</TableCell>
             </TableRow>
