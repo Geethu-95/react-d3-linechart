@@ -2,8 +2,18 @@ import React, { useEffect, useState } from "react";
 import Data from "./Data";
 import { Grid, Typography } from "@mui/material";
 import LineGraph from "./LineGraph";
+import axios from 'axios';
 
 function App() {
+
+    const [data, setData] = useState([]);
+
+    axios.get('http://fetest.pangeatech.net/data')
+    .then(response => setData(response.data))
+    .catch(error => {
+        console.log('There was an error',error);
+    })
+
     return (
         <>
             <Grid container >
@@ -13,11 +23,11 @@ function App() {
                 </Grid>
 
                 <Grid item xs={12}>
-                    <LineGraph />
+                    <LineGraph data={data}/>
                 </Grid>
 
                 <Grid item xs={12}>
-                    <Data />
+                    <Data data={data}/>
                 </Grid>
             </Grid>
 

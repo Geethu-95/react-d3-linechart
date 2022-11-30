@@ -109,16 +109,17 @@ const useSortableData = (items, config = null) => {
 };
 
 
-const Data =  () => {
+const Data =  (props) => {
 
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
 
-   axios.get('http://fetest.pangeatech.net/data')
-  .then(response => setData(response.data))
-  .catch(error => {
-      console.log('There was an error',error);
-  })
+  //  axios.get('http://fetest.pangeatech.net/data')
+  // .then(response => setData(response.data))
+  // .catch(error => {
+  //     console.log('There was an error',error);
+  // })
    
+  const {data} = props;
   
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);

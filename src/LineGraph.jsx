@@ -3,21 +3,23 @@ import axios from 'axios';
 import { useState
  } from 'react';
 import { useEffect } from 'react';
+import Data from './Data';
 
 
-export default function LineGraph() {
+export default function LineGraph(props) {
 
 
-    const [data, setData] = useState([]);
+    // const [data, setData] = useState([]);
 
-    axios.get('http://fetest.pangeatech.net/data')
-    .then(response => setData(response.data))
-    .catch(error => {
-        console.log('There was an error',error);
-    })
+    // axios.get('http://fetest.pangeatech.net/data')
+    // .then(response => setData(response.data))
+    // .catch(error => {
+    //     console.log('There was an error',error);
+    // })
 
     // const graphData = data.map(data => data.acv,data.product,data.month);
             // set(filter);
+            const{data} = props;
     const sch1Data = data.filter((d) => {
         return d.product === "Product - 17";
       });
@@ -39,6 +41,9 @@ export default function LineGraph() {
       
 
     return(
+      <>
+
+      {/* <Data tData={data}/> */}
 
         <LineChart width={1200} height={600} data={finalGraphData}>
         <XAxis dataKey="month" allowDuplicatedCategory={false} />
@@ -48,7 +53,7 @@ export default function LineGraph() {
         <Line type="monotone" dataKey="sch_2" stroke="#82ca9d" />
       </LineChart>
  
-
+      </>
    
     )
 }
