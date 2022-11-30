@@ -162,22 +162,22 @@ const Data =  (props) => {
               </TableCell>
             <TableCell align="right"><Button
               type="button"
-              onClick={() => requestSort('line_of_business')}
-              className={getClassNamesFor('line_of_business')}
+              // onClick={() => requestSort('line_of_business')}
+              // className={getClassNamesFor('line_of_business')}
             >
               line_of_business
             </Button></TableCell>
             <TableCell align="right"><Button
               type="button"
-              onClick={() => requestSort('revenue_type')}
-              className={getClassNamesFor('revenue_type')}
+              // onClick={() => requestSort('revenue_type')}
+              // className={getClassNamesFor('revenue_type')}
             >
               revenue_type
             </Button></TableCell>
             <TableCell align="right"><Button
               type="button"
-              onClick={() => requestSort('product')}
-              className={getClassNamesFor('product')}
+              // onClick={() => requestSort('product')}
+              // className={getClassNamesFor('product')}
             >
               product
             </Button></TableCell>
@@ -190,8 +190,8 @@ const Data =  (props) => {
             </Button></TableCell>
             <TableCell align="right"><Button
               type="button"
-              onClick={() => requestSort('month')}
-              className={getClassNamesFor('month')}
+              // onClick={() => requestSort('month')}
+              // className={getClassNamesFor('month')}
             >
               month
             </Button></TableCell>
